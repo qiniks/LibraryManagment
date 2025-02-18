@@ -59,15 +59,15 @@ class ContractEmployee extends Employee implements Payable {
 
 public class Main {
     public static void main(String[] args) {
-        Employee fullTimeEmployee = new FullTimeEmployee("Alice Johnson", 101, 5000);
-        Employee contractEmployee = new ContractEmployee("Bob Smith", 102,  25, 160);
+        FullTimeEmployee worker1 = new FullTimeEmployee("Alice Johnson", 101, 5000);
+        ContractEmployee worker2 = new ContractEmployee("Bob Smith", 102,  25, 160);
 
-        fullTimeEmployee.displayEmployeeInfo();
-        System.out.println("Total Salary: $" + fullTimeEmployee.calculateSalary());
+        worker1.displayEmployeeInfo();
+        System.out.println("Total Salary: $" + worker1.getPaymentAmount());
         System.out.println("--------------------");
 
-        contractEmployee.displayEmployeeInfo();
-        System.out.println("Total Salary: $" + contractEmployee.calculateSalary());
+        worker2.displayEmployeeInfo();
+        System.out.println("Total Salary: $" + worker2.getPaymentAmount());
         System.out.println("--------------------");
     }
 }

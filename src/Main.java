@@ -1,122 +1,73 @@
-class Book {
-    protected String title;
-    protected String author;
-    protected int yearPublished;
+abstract class Employee {
+    protected String name;
+    protected int id;
+    protected double baseSalary;
 
-    public Book(String title, String author, int yearPublished) {
-        this.title = title;
-        this.author = author;
-        this.yearPublished = yearPublished;
+    public Employee(String name, int id, double baseSalary) {
+        this.name = name;
+        this.id = id;
+        this.baseSalary = baseSalary;
     }
 
-    public String getBookInfo() {
-        return "Title: " + title + "\nAuthor: " + author + "\nYear Published: " + yearPublished;
-    }
+    public abstract double calculateSalary();
 
-    public void printBookDetails() {
-        System.out.println(getBookInfo());
+    public void displayEmployeeInfo() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Base Salary: $" + baseSalary);
     }
 }
 
-class PrintedBook extends Book {
-    private int numberOfPages;
-    private String publisher;
-    private double price;
+interface Payable {
+    double getPaymentAmount();
+}
 
-    public PrintedBook(String title, String author, int yearPublished, int numberOfPages, String publisher, double price) {
-        super(title, author, yearPublished);
-        this.numberOfPages = numberOfPages;
-        this.publisher = publisher;
-        this.price = price;
+class FullTimeEmployee extends Employee implements Payable {
+    public FullTimeEmployee(String name, int id, double baseSalary) {
+        super(name, id, baseSalary);
     }
 
-    public PrintedBook(String title, String author, int yearPublished, int numberOfPages, double price) {
-        super(title, author, yearPublished);
-        this.numberOfPages = numberOfPages;
-        this.publisher = "Unknown";
-        this.price = price;
+    @Override
+    public double calculateSalary() {
+        return baseSalary * 1.2;
     }
 
-    public String getBookInfo() {
-        return super.getBookInfo() +
-                "\nNumber of pages: " + numberOfPages +
-                "\nPublisher: " + publisher +
-                "\nPrice: " + price;
-    }
-
-
-    public void printBookDetails() {
-        System.out.println("*** Printed Book Details ***");
-        System.out.println(getBookInfo());
-    }
-
-    public void bookType() {
-        System.out.println("This is a printed book.");
-    }
-
-    public void printBook() {
-        System.out.println("Printing the book...");
+    @Override
+    public double getPaymentAmount() {
+        return calculateSalary();
     }
 }
 
-class EBook extends Book {
-    private double fileSizeMB;
-    private String fileFormat;
-    private double price;
+class ContractEmployee extends Employee implements Payable {
+    private int hourlyRate;
+    private int hoursWorked;
 
-    public EBook(String title, String author, int yearPublished, double fileSizeMB, String fileFormat, double price) {
-        super(title, author, yearPublished);
-        this.fileSizeMB = fileSizeMB;
-        this.fileFormat = fileFormat;
-        this.price = price;
+    public ContractEmployee(String name, int id, int hourlyRate, int hoursWorked) {
+        super(name, id, 0);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
     }
 
-    public EBook(String title, String author, int yearPublished, double fileSizeMB, double price) {
-        super(title, author, yearPublished);
-        this.fileSizeMB = fileSizeMB;
-        this.fileFormat = "Unknown";
-        this.price = price;
+    @Override
+    public double calculateSalary() {
+        return hourlyRate * hoursWorked;
     }
 
-
-    public String getBookInfo() {
-        return super.getBookInfo() +
-                "\nFile size: " + fileSizeMB +
-                "\nFile format: " + fileFormat +
-                "\nPrice: " + price;
-    }
-
-
-    public void printBookDetails() {
-        System.out.println("*** EBook Details ***");
-        System.out.println(getBookInfo());
-    }
-
-    public void bookType() {
-        System.out.println("This is an ebook.");
+    @Override
+    public double getPaymentAmount() {
+        return calculateSalary();
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        PrintedBook printedBook = new PrintedBook("Манас", "Сагымбай Орозбаков", 1925, 180, "Санат", 600);
-        EBook ebook = new EBook("Жамиля", "Чыңгыз Айтматов", 1949, 2.5, "PDF", 500);
+        Employee fullTimeEmployee = new FullTimeEmployee("Alice Johnson", 101, 5000);
+        Employee contractEmployee = new ContractEmployee("Bob Smith", 102,  25, 160);
 
-        System.out.println("*** Printed Book Info ***");
-        System.out.println(printedBook.getBookInfo());
-        System.out.println();
-        printedBook.printBookDetails();
-        System.out.println();
-        printedBook.bookType();
-        System.out.println();
-        printedBook.printBook();
-        System.out.println();
-        System.out.println("*** EBook Info ***");
-        System.out.println();
-        System.out.println(ebook.getBookInfo());
-        System.out.println();
-        ebook.printBookDetails();
-        System.out.println();
-        ebook.bookType();
+        fullTimeEmployee.displayEmployeeInfo();
+        System.out.println("Total Salary: $" + fullTimeEmployee.calculateSalary());
+        System.out.println("--------------------");
+
+        contractEmployee.displayEmployeeInfo();
+        System.out.println("Total Salary: $" + contractEmployee.calculateSalary());
+        System.out.println("--------------------");
     }
 }
